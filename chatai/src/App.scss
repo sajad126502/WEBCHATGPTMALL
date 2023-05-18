@@ -1,0 +1,109 @@
+.App {
+  .left-panel {
+    background-color: rgb(29, 27, 27);
+    height: 100vh;
+    width: 20%;
+
+    .upper-section {
+      input {
+        background: transparent;
+        border: 1px solid #928b8bd3;
+        width: 95%;
+        &::placeholder {
+          color: #a09595d3;
+        }
+        &:focus {
+          outline: none;
+          border-color: white;
+          background: none;
+          color: white;
+        }
+      }
+    }
+    .lower-section {
+      .list-group {
+        .list-group-item {
+          cursor: pointer;
+          background: transparent;
+          .form-control {
+            background: transparent;
+            color: rgb(255, 251, 251);
+            width: 80%;
+            &::placeholder {
+              color: white;
+              font-size: 0.7rem;
+            }
+          }
+          span {
+            color: rgb(219, 209, 209);
+          }
+          &:hover {
+            background-color: #252424d3;
+          }
+        }
+        &:first-child {
+          border-top: 1px solid #928b8bd3;
+        }
+      }
+    }
+  }
+  .center-panel {
+    height: 100vh;
+    overflow-y: auto;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 100px;
+    background-color: #202530c7;
+
+    .user-query {
+      padding-left: 200px;
+      background-color: #1d22309a;
+
+      .lead {
+        font-size: 1rem;
+      }
+    }
+    .response-text {
+      padding: 0 200px;
+      margin-top: 20px;
+      .lead {
+        font-size: 1rem;
+        white-space: pre-wrap;
+      }
+    }
+
+    h2 {
+      color: white;
+      font-weight: 500;
+    }
+    .responseText {
+      width: 60%;
+      height: auto;
+      text-align: start;
+    }
+    .search-query {
+      background-color: #202530c7;
+      padding: 30px 200px;
+      position: fixed;
+      bottom: 0;
+      width: 84%;
+      box-shadow: 9px 10px 89px 0px rgba(0, 0, 0, 0.75);
+
+      .form-control {
+        background-color: #2a3246;
+        color: white;
+
+        &::placeholder {
+          color: white;
+        }
+      }
+    }
+    .intro {
+      height: 60vh;
+      h2 {
+        font-size: 2.5rem;
+      }
+    }
+  }
+}
