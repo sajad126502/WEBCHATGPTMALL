@@ -78,7 +78,7 @@ export default function CenterNav() {
       {localStorage.getItem("openAiKey") && (
         <div className={`chatbot-ui ${active ? "active" : ""}`}>
           {!loading && responseInput.length < 1 && (
-            <h2 className="text-center">Chatbot UI</h2>
+            <h2 className="text-center">Text To Text</h2>
           )}
           <div className="response d-flex gap-4 text-white">
             <span style={{ fontSize: "2rem" }}>
