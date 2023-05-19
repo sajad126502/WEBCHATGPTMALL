@@ -1,25 +1,59 @@
-import React, {createContext, useEffect, useState} from "react";
-
+import axios from "axios";
+import React, { createContext, useState } from "react";
 
 export const Context = createContext();
 
 export const AppContext = (props) => {
-       
+  const BaseUrl = "https://chatgptmall.tech/api/v1/";
+  const [active, setActive] = useState(false);
+  const [showOpenaiApiForm, setShowOpenaiApiForm] = useState(false);
+  const [openAiKey, setOpenAiKey] = useState("");
+  const [responseText, setresponseText] = useState("");
+  const [responseInput, setresponseInput] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(false);
 
-	const [openaiKey, setOpenaiKey] = useState(false);
-	const [microsoftKey, setmicrosoftKey] = useState(false);
-	const [chataimallKey, setchataimallKey] = useState(false);
-	const [AI, showAI] = useState(false);
-	const [userQuery, setUserQuery] = useState('');
+  const body = {
+    input : searchQuery,
+  }
+  const config = {
+    headers: { Authorization: `Bearer ${localStorage.getItem('openAiKey')}` }
+};
 
+   const  textToText  = async () => {
+     setLoading(true)
+     await axios.post(BaseUrl + "text_to_text/", body, config)
+     .then((res) => {
+        console.log(res.data.response)
+        setresponseText(res.data.response)
+        setresponseInput(res.data.input)
+        setLoading(false)
+     })
+     .catch((err) => {
+      setLoading(false)
+        console.log(err)
+     })
+  }
 
-	return (
-		<Context.Provider
-			value={{
-				openaiKey, setOpenaiKey,microsoftKey, setmicrosoftKey,chataimallKey, setchataimallKey , AI, showAI, userQuery, setUserQuery
-			}}
-		>
-			{props.children}
-		</Context.Provider>
-	);
+  return (
+    <Context.Provider
+      value={{
+        active,
+        setActive,
+        showOpenaiApiForm,
+        setShowOpenaiApiForm,
+        openAiKey,
+        setOpenAiKey,
+        responseText,
+        setresponseText,
+        searchQuery,
+        setSearchQuery,
+        textToText,
+        responseInput,
+        loading
+      }}
+    >
+      {props.children}
+    </Context.Provider>
+  );
 };
