@@ -95,7 +95,7 @@ export default function LeftNav() {
               <span className="icon">
                 <FaKey></FaKey>
               </span>
-              <span>Chataimall API Key</span>
+              <span>Chatgptmall API Key</span>
             </li>
             <li className="d-flex gap-3 py-2 my-1 list-group-item border-0 rounded-3">
               <span className="icon">

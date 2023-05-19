@@ -25,7 +25,7 @@ export const AppContext = (props) => {
      await axios.post(BaseUrl + "text_to_text/", body, config)
      .then((res) => {
         console.log(res.data.response)
-        setresponseText(responseText.length > 0 ? responseText + "\n" + "\n" + "\n" + res.data.response : res.data.response)
+        setresponseText(res.data.response)
         setresponseInput(res.data.input)
         setLoading(false)
      })

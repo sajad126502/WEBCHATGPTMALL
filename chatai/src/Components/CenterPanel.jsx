@@ -51,7 +51,9 @@ export default function CenterNav() {
           </p>
           <p className="text-small">
             If you don't have an OpenAI API key, you can get one here:{" "}
-            <a target="_blank" href="https://www.chatbotui.com/">openai.com</a>
+            <a target="_blank" href="https://www.chatbotui.com/">
+              openai.com
+            </a>
           </p>
         </div>
       )}
@@ -68,14 +70,14 @@ export default function CenterNav() {
             {responseInput && !loading ? (
               responseInput
             ) : (
-                <PulseLoader color="#ffffff" size={'4x'}/>
+              <PulseLoader color="#ffffff" size={"4x"} />
             )}
           </span>
         </div>
       )}
       {localStorage.getItem("openAiKey") && (
         <div className={`chatbot-ui ${active ? "active" : ""}`}>
-          {(!loading && responseInput.length < 1) && (
+          {!loading && responseInput.length < 1 && (
             <h2 className="text-center">Chatbot UI</h2>
           )}
           <div className="response d-flex gap-4 text-white">
@@ -83,7 +85,11 @@ export default function CenterNav() {
               {responseText && <FaRobot></FaRobot>}
             </span>
 
-            <p class="blinking-slash">{displayedText} <span>|</span></p>
+            {displayedText && (
+              <p class="blinking-slash">
+                {displayedText} <span>|</span>
+              </p>
+            )}
           </div>
           <div className="search-bar mt-5">
             <input
