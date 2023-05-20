@@ -5,6 +5,8 @@
     top: 3%;
     left: 280px;
     transition: all 0.5s ease-in-out;
+    z-index: 4;
+    cursor: pointer;
 
     &.rotate {
       transform: rotate(180deg);
@@ -12,6 +14,7 @@
     }
   }
   .left-nav {
+    z-index: 3;
     position: absolute;
     width: 270px;
     height: 100vh;
@@ -79,6 +82,20 @@
     width: 100vw;
     height: 100vh;
     background-color: #343541;
+    transition: all 0.5s ease-in-out;
+
+    .loader {
+      transition: all 0.5s ease-in-out;
+      position: absolute;
+      top: 1.5%;
+      left: 55%;
+      z-index: 9;
+
+      &.active {
+        top: 40%;
+        left: 46%;
+      }
+    }
 
     .home-page {
       transition: all 0.5s ease-in-out;
@@ -105,30 +122,30 @@
     .chatbot-ui {
       transition: all 0.5s ease-in-out;
       position: absolute;
-      left: 32%;
-      top: 15%;
-      height: 80vh;
-      width: 800px;
+      top: 5%;
+      height: 82.8vh;
+      width: 100%;
+      overflow-y: auto;
 
       h2 {
+        transition: all 0.5s ease-in-out;
         color: #ffffff;
         margin-bottom: 2.5rem;
         position: absolute;
-        left: 35%;
+        left: 49.8%;
       }
 
       .response {
-        width: 80%;
+        width: 100%;
         margin: 0 auto;
-        height: 380px;
-        margin-top: 3rem;
+        height: auto;
         overflow-y: auto;
         span {
-          font-size: 1rem;
+          font-size: 1.6rem;
         }
         p {
           letter-spacing: 1px;
-          margin-top: 1.1rem;
+          margin-top: 9px;
           font-weight: 300;
           white-space: pre-wrap;
           color: #ccd0da;
@@ -141,24 +158,27 @@
           display: none;
         }
 
-        @keyframes blink {
-          0% {
-            opacity: 1;
-          }
-          50% {
-            opacity: 0;
-          }
-          100% {
-            opacity: 1;
+        .input {
+          .user-query {
+            padding-left: 30%;
+            padding-right: 100px;
           }
         }
-        
-        .blinking-slash span {
-          animation: blink 1s infinite;
+        .response-text {
+          transition: all 0.5s ease-in-out;
+          padding-left: 29.9%;
+          background-color: #444654;
+          padding-right: 200px;
         }
+
       }
       .search-bar {
         background-color: #444654;
+        position: fixed;
+        width: 58.6%;
+        bottom: 31px;
+        left: 29%;
+        transition: all 0.5s ease-in-out;
 
         input {
           background-color: #40414f;
@@ -173,19 +193,35 @@
             border: 1px solid white;
           }
         }
+        &.active {
+          left: 20%;
+          width: 68%;
+        }
       }
 
+      &::-webkit-scrollbar {
+        display: none;
+      }
       &.active {
-        left: 20%;
+        h2 {
+          left: 39.8%;
+        }
+        .response {
+          .input {
+            .user-query {
+              padding-left: 20%;
+            }
+          }
+          .response-text {
+            padding-left: 19.9%;
+          }
+        }
       }
     }
     .user-query {
       transition: all 0.5s ease-in-out;
-      margin-top: 3rem;
-      padding-left: 32.3rem;
       font-weight: 300;
-      background-color: #444654;
-
+      background-color: #343541;
 
       &:first-child {
         font-size: 2rem;
@@ -195,9 +231,22 @@
         color: #797e88;
         font-size: 1.2rem;
       }
-
-      &.active {
-        padding-left: 22rem;
+    }
+  }
+  .type-writter {
+    .blinking-slash {
+      animation: blink 1s infinite;
+      font-size: 1rem;
+    }
+    @keyframes blink {
+      0% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
       }
     }
   }
