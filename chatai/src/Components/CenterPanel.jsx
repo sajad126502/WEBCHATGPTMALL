@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect,useState, useRef } from "react";
 import { Context } from "../context/contextApi";
-import { FaRobot, FaUser } from "react-icons/fa";
+import { FaCheck, FaCopy, FaRobot, FaUser } from "react-icons/fa";
 import PulseLoader from "react-spinners/PulseLoader";
 import TypeWritter from "./TypeWritter";
 
@@ -19,6 +19,18 @@ export default function CenterNav() {
   } = useContext(Context);
 
   const divRef = useRef(null);
+  const [copySuccess, setCopySuccess] = useState(false);
+
+  const copyContent = async (text) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopySuccess(true);
+      console.log("Content copied to clipboard");
+    } catch (err) {
+      console.error("Failed to copy: ", err);
+      setCopySuccess(false);
+    }
+  };
 
   const callApi = async () => {
     if (localStorage.getItem("openAi_apiKey")) {
@@ -119,6 +131,14 @@ export default function CenterNav() {
                   <p>
                     <TypeWritter response={res.response} />
                   </p>
+                  <span
+                    onClick={() => {
+                      copyContent(res.response);
+                    }}
+                    className="copy"
+                  >
+                   {!copySuccess ? <FaCopy></FaCopy> : <FaCheck></FaCheck> }
+                  </span>
                 </div>
               </div>
             );
