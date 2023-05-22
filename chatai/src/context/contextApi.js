@@ -20,31 +20,42 @@ export const AppContext = (props) => {
   const body = {
     input: searchQuery,
   };
-  const params = {
-    openai_key: `${localStorage.getItem("chatgptmall_apikey")}`,
-  };
+
   const config = {
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("openAi_apiKey")}`,
+      Authorization: `Bearer ${localStorage.getItem("chatgptmall_apikey")}`,
     },
   };
 
-  const textToText = async () => {
+  const fetchData = async (apiUrl, requestOptions) => {
+    try {
+      const res = await axios.post(apiUrl, body, requestOptions);
+      setresponseText(res.data.response);
+      Data.push(...response, res.data);
+      console.log(Data);
+      setresponse(Data);
+      setresponseInput(res.data.input);
+    } catch (err) {
+      console.log(err);
+    }
+    setLoading(false);
+  };
+
+  const openai_textToText = () => {
     setLoading(true);
-    await axios
-      .post(BaseUrl + "openai/text_to_text/", body, { params })
-      .then((res) => {
-        setresponseText(res.data.response);
-        Data.push(...response, res.data);
-        console.log(Data);
-        setresponse(Data);
-        setresponseInput(res.data.input);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setLoading(false);
-        console.log(err);
-      });
+    const apiUrl = BaseUrl + "openai/text_to_text/";
+    const params = {
+      openai_key: localStorage.getItem("openAi_apiKey"),
+    };
+    const requestOptions = { params };
+    fetchData(apiUrl, requestOptions);
+  };
+
+  const chatgptmall_textToText = () => {
+    setLoading(true);
+    const apiUrl = BaseUrl + "text_to_text/";
+    const requestOptions = { headers: config.headers };
+    fetchData(apiUrl, requestOptions);
   };
 
   return (
@@ -62,7 +73,8 @@ export const AppContext = (props) => {
         setresponseText,
         searchQuery,
         setSearchQuery,
-        textToText,
+        openai_textToText,
+        chatgptmall_textToText,
         responseInput,
         loading,
         response,
