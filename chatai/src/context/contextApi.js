@@ -10,7 +10,10 @@ export const AppContext = (props) => {
   const [active, setActive] = useState(false);
   const [showOpenaiApiForm, setShowOpenaiApiForm] = useState(false);
   const [showChatgptmallApiForm, setShowChatgptmallApiForm] = useState(false);
+  const [microSoftApiForm, setMicroSoftApiForm] = useState(false);
+  const [microSoftEndPoint, setMicroSoftEndPoint] = useState(false);
   const [ApiKey, setApiKey] = useState("");
+  const [endpoint, setEndPoint] = useState("");
   const [response, setresponse] = useState([]);
   const [responseText, setresponseText] = useState([]);
   const [responseInput, setresponseInput] = useState("");
@@ -27,7 +30,7 @@ export const AppContext = (props) => {
     },
   };
 
-  const fetchData = async (apiUrl, requestOptions) => {
+  const fetchData = async (apiUrl, body, requestOptions = {}) => {
     try {
       const res = await axios.post(apiUrl, body, requestOptions);
       setresponseText(res.data.response);
@@ -48,14 +51,25 @@ export const AppContext = (props) => {
       openai_key: localStorage.getItem("openAi_apiKey"),
     };
     const requestOptions = { params };
-    fetchData(apiUrl, requestOptions);
+    fetchData(apiUrl, body, requestOptions);
   };
 
   const chatgptmall_textToText = () => {
     setLoading(true);
     const apiUrl = BaseUrl + "text_to_text/";
     const requestOptions = { headers: config.headers };
-    fetchData(apiUrl, requestOptions);
+    fetchData(apiUrl, body, requestOptions);
+  };
+
+  const microsoft_textToText = () => {
+    setLoading(true);
+    const apiUrl = BaseUrl + "ms/text_to_text/";
+    const body = {
+      input: searchQuery,
+      endpoint: localStorage.getItem("microsoft_endpoint"),
+      ms_key: localStorage.getItem("microsoft_apikey"),
+    };
+    fetchData(apiUrl, body);
   };
 
   return (
@@ -67,8 +81,15 @@ export const AppContext = (props) => {
         setShowOpenaiApiForm,
         showChatgptmallApiForm,
         setShowChatgptmallApiForm,
+        microSoftApiForm,
+        setMicroSoftApiForm,
+        microSoftEndPoint,
+        setMicroSoftEndPoint,
+        microsoft_textToText,
         ApiKey,
         setApiKey,
+        endpoint,
+        setEndPoint,
         responseText,
         setresponseText,
         searchQuery,

@@ -11,6 +11,7 @@ export default function CenterNav() {
     setSearchQuery,
     openai_textToText,
     chatgptmall_textToText,
+    microsoft_textToText,
     responseInput,
     loading,
     response,
@@ -24,8 +25,10 @@ export default function CenterNav() {
       await openai_textToText();
     } else if (localStorage.getItem("chatgptmall_apikey")) {
       await chatgptmall_textToText();
+    } else if (localStorage.getItem("microsoft_apikey")) {
+      await microsoft_textToText();
     }
-  }
+  };
 
   useEffect(() => {
     const divElement = divRef.current;
@@ -46,7 +49,9 @@ export default function CenterNav() {
       )}
       {!(
         localStorage.getItem("openAi_apiKey") ||
-        localStorage.getItem("chatgptmall_apikey")
+        localStorage.getItem("chatgptmall_apikey") ||
+        (localStorage.getItem("microsoft_apikey") &&
+          localStorage.getItem("microsoft_endpoint"))
       ) && (
         <div className={`home-page text-center ${active ? "active" : ""}`}>
           <h2>Welcome to Chatbot UI</h2>
@@ -73,7 +78,9 @@ export default function CenterNav() {
         </div>
       )}
       {(localStorage.getItem("openAi_apiKey") ||
-        localStorage.getItem("chatgptmall_apikey")) && (
+        localStorage.getItem("chatgptmall_apikey") ||
+        (localStorage.getItem("microsoft_apikey") &&
+          localStorage.getItem("microsoft_endpoint"))) && (
         <div
           id="chatbot"
           ref={divRef}
@@ -81,8 +88,8 @@ export default function CenterNav() {
         >
           {!loading && responseInput.length < 1 && (
             <h2 className="text-center">Text To Text</h2>
-            )}
-            <span>|</span>
+          )}
+          <span>|</span>
           {response?.map((res) => {
             return (
               <div className="response c_response d-flex flex-column text-white">

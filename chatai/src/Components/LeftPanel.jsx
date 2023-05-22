@@ -12,6 +12,12 @@ export default function LeftNav() {
     setShowChatgptmallApiForm,
     ApiKey,
     setApiKey,
+    endpoint,
+    setEndPoint,
+    microSoftApiForm,
+    setMicroSoftApiForm,
+    microSoftEndPoint,
+    setMicroSoftEndPoint,
   } = useContext(Context);
 
   return (
@@ -68,7 +74,6 @@ export default function LeftNav() {
                   <span className="btn btn-sm text-white p-0 ">
                     <FaCheck
                       onClick={() => {
-                        localStorage.clear();
                         localStorage.setItem("chatgptmall_apikey", ApiKey);
                         setShowChatgptmallApiForm(false);
                         console.log("Api Key Stored in Local Storage.");
@@ -85,12 +90,91 @@ export default function LeftNav() {
                 </form>
               )}
             </li>
+
+            {/* -------------------------------------------------------- */}
+
             <li className="d-flex gap-3 py-2 my-1 list-group-item border-0 rounded-3">
               <span className="icon">
                 <FaKey></FaKey>
               </span>
-              <span>Microsoft API Key</span>
+              {(!microSoftApiForm && !microSoftEndPoint) && (
+                <>
+                  <span
+                    onClick={() => {
+                      setMicroSoftApiForm(true);
+                    }}
+                  >
+                    Microsoft API Key
+                  </span>
+                </>
+              )}
+              {(microSoftApiForm && !localStorage.getItem('microsoft_apikey')) && (
+                <form className="d-flex align-items-center gap-2">
+                  <input
+                    type="password"
+                    autoComplete="off"
+                    placeholder="Api Key"
+                    className="form-control form-control-sm"
+                    value={ApiKey}
+                    onChange={(e) => {
+                      setApiKey(e.target.value);
+                    }}
+                  />
+                  <span className="btn btn-sm text-white p-0 ">
+                    <FaCheck
+                      onClick={() => {
+                        localStorage.setItem("microsoft_apikey", ApiKey);
+                        setMicroSoftApiForm(false);
+                        setMicroSoftEndPoint(true);
+                        console.log("Api Key Stored in Local Storage.");
+                      }}
+                    ></FaCheck>
+                  </span>
+                  <span className="btn btn-sm text-white p-0 ">
+                    <FaArrowLeft
+                      onClick={() => {
+                        setMicroSoftApiForm(false);
+                      }}
+                    ></FaArrowLeft>
+                  </span>
+                </form>
+              )}
+
+              {microSoftEndPoint && (
+                <form className="d-flex align-items-center gap-2">
+                  <input
+                    type="password"
+                    autoComplete="off"
+                    placeholder="Enter Endpoint"
+                    className="form-control form-control-sm"
+                    value={endpoint}
+                    onChange={(e) => {
+                      setEndPoint(e.target.value);
+                    }}
+                  />
+                  <span className="btn btn-sm text-white p-0 ">
+                    <FaCheck
+                      onClick={() => {
+                        localStorage.setItem("microsoft_endpoint", endpoint);
+                        setShowChatgptmallApiForm(false);
+                        setMicroSoftEndPoint(false);
+                        console.log("Endpoint Stored in Local Storage.");
+                      }}
+                    ></FaCheck>
+                  </span>
+                  <span className="btn btn-sm text-white p-0 ">
+                    <FaArrowLeft
+                      onClick={() => {
+                        setMicroSoftEndPoint(false);
+                      }}
+                    ></FaArrowLeft>
+                  </span>
+                </form>
+              )}
             </li>
+
+            {/* -------------------------------------------------------- */}
+
             <li className="d-flex gap-3 py-2 my-1 list-group-item border-0 rounded-3">
               <span className="icon">
                 <FaKey></FaKey>
@@ -121,7 +205,6 @@ export default function LeftNav() {
                   <span className="btn btn-sm text-white p-0 ">
                     <FaCheck
                       onClick={() => {
-                        localStorage.clear();
                         localStorage.setItem("openAi_apiKey", ApiKey);
                         setShowOpenaiApiForm(false);
                         console.log("Api Key Stored in Local Storage.");
