@@ -9,7 +9,8 @@ export default function CenterNav() {
     active,
     searchQuery,
     setSearchQuery,
-    textToText,
+    openai_textToText,
+    chatgptmall_textToText,
     responseInput,
     loading,
     response,
@@ -17,6 +18,14 @@ export default function CenterNav() {
   } = useContext(Context);
 
   const divRef = useRef(null);
+
+  const callApi = async () => {
+    if (localStorage.getItem("openAi_apiKey")) {
+      await openai_textToText();
+    } else if (localStorage.getItem("chatgptmall_apikey")) {
+      await chatgptmall_textToText();
+    }
+  }
 
   useEffect(() => {
     const divElement = divRef.current;
@@ -119,7 +128,7 @@ export default function CenterNav() {
               onKeyUp={(event) => {
                 if (event.key === "Enter") {
                   setLoading(true);
-                  textToText();
+                  callApi();
                 }
               }}
             />
