@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect,useState, useRef } from "react";
 import { Context } from "../context/contextApi";
-import { FaRobot, FaUser } from "react-icons/fa";
+import { FaCheck, FaCopy, FaRobot, FaUser } from "react-icons/fa";
 import PulseLoader from "react-spinners/PulseLoader";
 import TypeWritter from "./TypeWritter";
 
@@ -11,6 +11,7 @@ export default function CenterNav() {
     setSearchQuery,
     openai_textToText,
     chatgptmall_textToText,
+    microsoft_textToText,
     responseInput,
     loading,
     response,
@@ -18,14 +19,28 @@ export default function CenterNav() {
   } = useContext(Context);
 
   const divRef = useRef(null);
+  const [copySuccess, setCopySuccess] = useState(false);
+
+  const copyContent = async (text) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopySuccess(true);
+      console.log("Content copied to clipboard");
+    } catch (err) {
+      console.error("Failed to copy: ", err);
+      setCopySuccess(false);
+    }
+  };
 
   const callApi = async () => {
     if (localStorage.getItem("openAi_apiKey")) {
       await openai_textToText();
     } else if (localStorage.getItem("chatgptmall_apikey")) {
       await chatgptmall_textToText();
+    } else if (localStorage.getItem("microsoft_apikey")) {
+      await microsoft_textToText();
     }
-  }
+  };
 
   useEffect(() => {
     const divElement = divRef.current;
@@ -46,7 +61,9 @@ export default function CenterNav() {
       )}
       {!(
         localStorage.getItem("openAi_apiKey") ||
-        localStorage.getItem("chatgptmall_apikey")
+        localStorage.getItem("chatgptmall_apikey") ||
+        (localStorage.getItem("microsoft_apikey") &&
+          localStorage.getItem("microsoft_endpoint"))
       ) && (
         <div className={`home-page text-center ${active ? "active" : ""}`}>
           <h2>Welcome to Chatbot UI</h2>
@@ -73,7 +90,9 @@ export default function CenterNav() {
         </div>
       )}
       {(localStorage.getItem("openAi_apiKey") ||
-        localStorage.getItem("chatgptmall_apikey")) && (
+        localStorage.getItem("chatgptmall_apikey") ||
+        (localStorage.getItem("microsoft_apikey") &&
+          localStorage.getItem("microsoft_endpoint"))) && (
         <div
           id="chatbot"
           ref={divRef}
@@ -81,8 +100,8 @@ export default function CenterNav() {
         >
           {!loading && responseInput.length < 1 && (
             <h2 className="text-center">Text To Text</h2>
-            )}
-            <span>|</span>
+          )}
+          <span>|</span>
           {response?.map((res) => {
             return (
               <div className="response c_response d-flex flex-column text-white">
@@ -112,6 +131,14 @@ export default function CenterNav() {
                   <p>
                     <TypeWritter response={res.response} />
                   </p>
+                  <span
+                    onClick={() => {
+                      copyContent(res.response);
+                    }}
+                    className="copy"
+                  >
+                   {!copySuccess ? <FaCopy></FaCopy> : <FaCheck></FaCheck> }
+                  </span>
                 </div>
               </div>
             );

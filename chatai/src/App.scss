@@ -168,6 +168,19 @@
           padding-left: 29.9%;
           background-color: #444654;
           padding-right: 200px;
+
+          .copy {
+            position: absolute;
+            right: 50px;
+            margin-top: 10px;
+            font-size: 15px;
+            color: #999baf;
+            cursor: pointer;
+          
+            &:hover {
+              opacity: 0.8;
+            }
+          }
         }
 
       }
