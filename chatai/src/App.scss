@@ -34,6 +34,18 @@
           }
         }
       }
+      .form-select {
+        width: 90%;
+        background: transparent;
+        border: 1px solid #797e88;
+        color: #797e88;
+        margin: 0 auto;
+
+        option {
+          color: #ffffff;
+          background-color: #202123;
+        }
+      }
     }
     .lower-section {
       ul {
@@ -174,15 +186,13 @@
             right: 50px;
             margin-top: 10px;
             font-size: 15px;
-            color: #999baf;
             cursor: pointer;
-          
+
             &:hover {
               opacity: 0.8;
             }
           }
         }
-
       }
       .search-bar {
         background-color: #444654;
@@ -208,6 +218,18 @@
         &.active {
           left: 20%;
           width: 68%;
+        }
+        .microphone {
+          position: absolute;
+          right: 14px;
+          top: 5px;
+          font-size: 20px;
+          cursor: pointer;
+          transition: all 0.5s ease-in-out;
+
+          &:hover {
+            transform: scale(1.2);
+          }
         }
       }
 

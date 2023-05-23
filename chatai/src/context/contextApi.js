@@ -20,10 +20,6 @@ export const AppContext = (props) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const body = {
-    input: searchQuery,
-  };
-
   const config = {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("chatgptmall_apikey")}`,
@@ -32,40 +28,43 @@ export const AppContext = (props) => {
 
   const fetchData = async (apiUrl, body, requestOptions = {}) => {
     try {
-      const res = await axios.post(apiUrl, body, requestOptions);
-      setresponseText(res.data.response);
-      Data.push(...response, res.data);
-      console.log(Data);
-      setresponse(Data);
-      setresponseInput(res.data.input);
+      if (body.input.length > 0) {
+        const res = await axios.post(apiUrl, body, requestOptions);
+        res.data.isCopied = false;
+        setresponseText(res.data.response);
+        Data.push(...response, res.data);
+        console.log(Data);
+        setresponse(Data);
+        setresponseInput(res.data.input);
+      }
     } catch (err) {
       console.log(err);
     }
     setLoading(false);
   };
 
-  const openai_textToText = () => {
+  const openai_textToText = (input) => {
     setLoading(true);
     const apiUrl = BaseUrl + "openai/text_to_text/";
     const params = {
       openai_key: localStorage.getItem("openAi_apiKey"),
     };
     const requestOptions = { params };
-    fetchData(apiUrl, body, requestOptions);
+    fetchData(apiUrl, {input}, requestOptions);
   };
 
-  const chatgptmall_textToText = () => {
+  const chatgptmall_textToText = (input) => {
     setLoading(true);
     const apiUrl = BaseUrl + "text_to_text/";
     const requestOptions = { headers: config.headers };
-    fetchData(apiUrl, body, requestOptions);
+    fetchData(apiUrl, {input}, requestOptions);
   };
 
-  const microsoft_textToText = () => {
+  const microsoft_textToText = (input) => {
     setLoading(true);
     const apiUrl = BaseUrl + "ms/text_to_text/";
     const body = {
-      input: searchQuery,
+      input: input,
       endpoint: localStorage.getItem("microsoft_endpoint"),
       ms_key: localStorage.getItem("microsoft_apikey"),
     };
