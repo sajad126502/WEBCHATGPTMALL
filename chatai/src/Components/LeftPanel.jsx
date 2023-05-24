@@ -1,6 +1,10 @@
 import { FaArrowLeft, FaCheck, FaHammer, FaKey } from "react-icons/fa";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Context } from "../context/contextApi";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
+import Dropdown from "react-dropdown";
+import "react-dropdown/style.css";
 
 export default function LeftNav() {
   const {
@@ -19,6 +23,10 @@ export default function LeftNav() {
     microSoftEndPoint,
     setMicroSoftEndPoint,
   } = useContext(Context);
+  const [options, setOptions] = useState([]);
+
+  const defaultOption =
+    "API - " + localStorage.getItem("selected_api") || "Microsoft";
 
   const checkLocalStorage = () => {
     const keys = ["openAi_apiKey", "chatgptmall_apikey", "microsoft_apikey"];
@@ -35,7 +43,24 @@ export default function LeftNav() {
   };
 
   const apiPresentInLocalStorage = checkLocalStorage();
-  console.log("apiPresentInLocalStorage", apiPresentInLocalStorage);
+
+  useEffect(() => {
+    const checkLocalStorage = () => {
+      const storedOptions = [];
+      if (localStorage.getItem("chatgptmall_apikey")) {
+        storedOptions.push("Chatgptmall");
+      }
+      if (localStorage.getItem("microsoft_apikey")) {
+        storedOptions.push("Microsoft");
+      }
+      if (localStorage.getItem("openAi_apiKey")) {
+        storedOptions.push("Openai");
+      }
+      setOptions(storedOptions);
+    };
+
+    checkLocalStorage();
+  }, []);
 
   return (
     <>
@@ -55,22 +80,32 @@ export default function LeftNav() {
             <input
               type="text"
               placeholder="Search..."
-              className="form-control mt-2 py-2"
+              className="form-control mt-2 py-2 rounded-0"
             />
           </form>
           {apiPresentInLocalStorage && (
-            <select class="form-select" aria-label="Default select example">
-              <option selected>Choose API</option>
-              {localStorage.getItem("chatgptmall_apikey") && (
-                <option value="1">Chatgptmall API Key</option>
-              )}
-              {localStorage.getItem("microsoft_apikey") && (
-                <option value="2">Microsoft API Key</option>
-              )}
-              {localStorage.getItem("openAi_apiKey") && (
-                <option value="3">Open AI API Key</option>
-              )}
-            </select>
+            <>
+              <Dropdown
+                className="dropdown"
+                options={options}
+                controlClassName="dropdown"
+                onChange={(value) => {
+                  localStorage.setItem("selected_api", value.value);
+                  toast.success(value.value + "Api Selected", {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                  });
+                }}
+                value={defaultOption}
+                placeholder="Select an option"
+              />
+            </>
           )}
         </div>
         <div className="lower-section">
@@ -107,7 +142,16 @@ export default function LeftNav() {
                       onClick={() => {
                         localStorage.setItem("chatgptmall_apikey", ApiKey);
                         setShowChatgptmallApiForm(false);
-                        console.log("Api Key Stored in Local Storage.");
+                        toast.success("Chatgptmall Api Saved", {
+                          position: "top-right",
+                          autoClose: 2000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                          theme: "dark",
+                        });
                       }}
                     ></FaCheck>
                   </span>
@@ -158,7 +202,16 @@ export default function LeftNav() {
                           localStorage.setItem("microsoft_apikey", ApiKey);
                           setMicroSoftApiForm(false);
                           setMicroSoftEndPoint(true);
-                          console.log("Api Key Stored in Local Storage.");
+                          toast.success("Microsoft Api Saved", {
+                            position: "top-right",
+                            autoClose: 2000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "dark",
+                          });
                         }}
                       ></FaCheck>
                     </span>
@@ -190,7 +243,17 @@ export default function LeftNav() {
                         localStorage.setItem("microsoft_endpoint", endpoint);
                         setShowChatgptmallApiForm(false);
                         setMicroSoftEndPoint(false);
-                        console.log("Endpoint Stored in Local Storage.");
+                        toast.success("Endpoint Saved", {
+                          position: "top-right",
+                          autoClose: 2000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                          theme: "dark",
+                        });
+                        
                       }}
                     ></FaCheck>
                   </span>
@@ -239,7 +302,17 @@ export default function LeftNav() {
                       onClick={() => {
                         localStorage.setItem("openAi_apiKey", ApiKey);
                         setShowOpenaiApiForm(false);
-                        console.log("Api Key Stored in Local Storage.");
+                        toast.success("OpenAi Api Saved", {
+                          position: "top-right",
+                          autoClose: 2000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                          theme: "dark",
+                        });
+                        
                       }}
                     ></FaCheck>
                   </span>
@@ -262,6 +335,18 @@ export default function LeftNav() {
           </ul>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </>
   );
 }
