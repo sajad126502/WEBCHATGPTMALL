@@ -1,6 +1,16 @@
-import React, { useContext, useEffect,useState, useRef } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { Context } from "../context/contextApi";
-import { FaCheck, FaCopy, FaRobot, FaUser } from "react-icons/fa";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
+
+import {
+  FaMicrophoneAltSlash,
+  FaCopy,
+  FaMicrophone,
+  FaRobot,
+  FaUser,
+} from "react-icons/fa";
 import PulseLoader from "react-spinners/PulseLoader";
 import TypeWritter from "./TypeWritter";
 
@@ -19,26 +29,40 @@ export default function CenterNav() {
   } = useContext(Context);
 
   const divRef = useRef(null);
-  const [copySuccess, setCopySuccess] = useState(false);
+  const [recording, setRecording] = useState(false);
+  const [convertedAudio, setConvertedAudio] = useState('false');
+
+  let {
+    transcript,
+    listening,
+    // resetTranscript,
+    browserSupportsSpeechRecognition,
+  } = useSpeechRecognition();
+
+  if (!browserSupportsSpeechRecognition) {
+    console.log(
+      "Your browser does not support speech recognition software! Try Chrome desktop, maybe?"
+    );
+  }
 
   const copyContent = async (text) => {
     try {
       await navigator.clipboard.writeText(text);
-      setCopySuccess(true);
       console.log("Content copied to clipboard");
     } catch (err) {
       console.error("Failed to copy: ", err);
-      setCopySuccess(false);
     }
   };
 
-  const callApi = async () => {
+  const callApi = async (input) => {
+    console.log("Calling API");
+    console.log("searchQuery", searchQuery);
     if (localStorage.getItem("openAi_apiKey")) {
-      await openai_textToText();
+      await openai_textToText(input);
     } else if (localStorage.getItem("chatgptmall_apikey")) {
-      await chatgptmall_textToText();
+      await chatgptmall_textToText(input);
     } else if (localStorage.getItem("microsoft_apikey")) {
-      await microsoft_textToText();
+      await microsoft_textToText(input);
     }
   };
 
@@ -50,6 +74,10 @@ export default function CenterNav() {
     const divElement = divRef.current;
     if (divElement) divElement.scrollTop = divElement?.scrollHeight;
   }, [response]);
+
+  useEffect(()=>{
+    setConvertedAudio(transcript)
+  },[transcript])
 
   return (
     <div className="center-nav">
@@ -83,9 +111,7 @@ export default function CenterNav() {
           </p>
           <p className="text-small">
             If you don't have an OpenAI API key, you can get one here:{" "}
-            <a target="_blank" href="https://www.chatbotui.com/">
-              openai.com
-            </a>
+            <a href="https://www.chatbotui.com/">openai.com</a>
           </p>
         </div>
       )}
@@ -134,10 +160,11 @@ export default function CenterNav() {
                   <span
                     onClick={() => {
                       copyContent(res.response);
+                      res.isCopied = true;
                     }}
                     className="copy"
                   >
-                   {!copySuccess ? <FaCopy></FaCopy> : <FaCheck></FaCheck> }
+                    <FaCopy color="rgb(145 146 160);"></FaCopy>
                   </span>
                 </div>
               </div>
@@ -151,14 +178,40 @@ export default function CenterNav() {
               onChange={(e) => {
                 setSearchQuery(e.target.value);
               }}
-              value={searchQuery}
+              value={searchQuery || convertedAudio}
               onKeyUp={(event) => {
                 if (event.key === "Enter") {
                   setLoading(true);
-                  callApi();
+                  callApi(searchQuery);
+                  setSearchQuery("");
                 }
               }}
             />
+            <span
+              onClick={() => {
+                setRecording(!recording);
+              }}
+              className="microphone"
+            >
+              {!listening ? (
+                <FaMicrophoneAltSlash
+                  onClick={() => {
+                    setSearchQuery("");
+                    SpeechRecognition.startListening({ continuous: true });
+                  }}
+                  color="#ffffff"
+                ></FaMicrophoneAltSlash>
+              ) : (
+                <FaMicrophone
+                  onClick={() => {
+                    SpeechRecognition.stopListening();
+                    callApi(transcript);
+                    setConvertedAudio('')
+                  }}
+                  color="#ffffff"
+                ></FaMicrophone>
+              )}
+            </span>
           </div>
         </div>
       )}
