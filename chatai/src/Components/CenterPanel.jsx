@@ -35,7 +35,7 @@ export default function CenterNav() {
   let {
     transcript,
     listening,
-    // resetTranscript,
+    resetTranscript,
     browserSupportsSpeechRecognition,
   } = useSpeechRecognition();
 
@@ -198,6 +198,7 @@ export default function CenterNav() {
                   onClick={() => {
                     setSearchQuery("");
                     SpeechRecognition.startListening({ continuous: true });
+                    resetTranscript();
                   }}
                   color="#ffffff"
                 ></FaMicrophoneAltSlash>
