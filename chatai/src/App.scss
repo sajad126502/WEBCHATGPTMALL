@@ -34,16 +34,26 @@
           }
         }
       }
-      .form-select {
+      .dropdown {
         width: 90%;
-        background: transparent;
-        border: 1px solid #797e88;
+        background-color: black;
+        border: none;
         color: #797e88;
         margin: 0 auto;
-
-        option {
+      }
+      .Dropdown-menu {
+        margin-top: 5px;
+        background-color: #202123;
+        border: none;
+        
+        .Dropdown-option {
           color: #ffffff;
-          background-color: #202123;
+          &.is-selected {
+             background-color: #34383b;
+           }
+           &:hover {
+            background-color: #34383b;
+           }
         }
       }
     }

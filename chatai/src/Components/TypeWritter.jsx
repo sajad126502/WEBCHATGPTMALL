@@ -26,9 +26,8 @@ export default function TypeWriter(props) {
 
   return (
     <div className="type-writter">
-      {/* Render the typewriter effect */}
       <p>
-        {displayText}{" "}
+        {displayText}
         <span className="blinking-slash">{showCursor ? "|" : ""}</span>
       </p>
     </div>

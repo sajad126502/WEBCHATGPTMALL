@@ -6,6 +6,14 @@ export const Context = createContext();
 export const AppContext = (props) => {
   let Data = [];
 
+  function generateUniqueId() {
+    const timestamp = Date.now().toString();
+    const randomNum = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
+    const uniqueId = timestamp + randomNum;
+    return uniqueId;
+  }
+  
+
   const BaseUrl = "https://chatgptmall.tech/api/v1/";
   const [active, setActive] = useState(false);
   const [showOpenaiApiForm, setShowOpenaiApiForm] = useState(false);
@@ -30,7 +38,6 @@ export const AppContext = (props) => {
     try {
       if (body.input.length > 0) {
         const res = await axios.post(apiUrl, body, requestOptions);
-        res.data.isCopied = false;
         setresponseText(res.data.response);
         Data.push(...response, res.data);
         console.log(Data);
@@ -50,14 +57,14 @@ export const AppContext = (props) => {
       openai_key: localStorage.getItem("openAi_apiKey"),
     };
     const requestOptions = { params };
-    fetchData(apiUrl, {input}, requestOptions);
+    fetchData(apiUrl, { input }, requestOptions);
   };
 
   const chatgptmall_textToText = (input) => {
     setLoading(true);
     const apiUrl = BaseUrl + "text_to_text/";
     const requestOptions = { headers: config.headers };
-    fetchData(apiUrl, {input}, requestOptions);
+    fetchData(apiUrl, { input }, requestOptions);
   };
 
   const microsoft_textToText = (input) => {
@@ -99,6 +106,7 @@ export const AppContext = (props) => {
         loading,
         response,
         setLoading,
+        generateUniqueId,
       }}
     >
       {props.children}
