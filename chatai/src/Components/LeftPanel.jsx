@@ -22,7 +22,7 @@ export default function LeftNav() {
     setMicroSoftApiForm,
     microSoftEndPoint,
     setMicroSoftEndPoint,
-    selectedApi, changeSelectedApi,
+    changeSelectedApi,
   } = useContext(Context);
   const [options, setOptions] = useState([]);
 
@@ -186,7 +186,7 @@ export default function LeftNav() {
                 </>
               )}
               {microSoftApiForm &&
-                !localStorage.getItem("microsoft_apikey") && (
+                microSoftApiForm && (
                   <form className="d-flex align-items-center gap-2">
                     <input
                       type="password"
