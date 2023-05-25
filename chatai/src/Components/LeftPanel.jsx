@@ -22,6 +22,7 @@ export default function LeftNav() {
     setMicroSoftApiForm,
     microSoftEndPoint,
     setMicroSoftEndPoint,
+    selectedApi, changeSelectedApi,
   } = useContext(Context);
   const [options, setOptions] = useState([]);
 
@@ -91,6 +92,7 @@ export default function LeftNav() {
                 controlClassName="dropdown"
                 onChange={(value) => {
                   localStorage.setItem("selected_api", value.value);
+                  changeSelectedApi(value.value);
                   toast.success(value.value + "Api Selected", {
                     position: "top-right",
                     autoClose: 2000,
