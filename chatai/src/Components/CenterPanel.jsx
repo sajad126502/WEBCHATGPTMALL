@@ -15,6 +15,7 @@ import {
 } from "react-icons/fa";
 import PulseLoader from "react-spinners/PulseLoader";
 import TypeWritter from "./TypeWritter";
+import TextToSpeech from "./TextToSpeech";
 
 export default function CenterNav() {
   const {
@@ -29,6 +30,7 @@ export default function CenterNav() {
     response,
     setLoading,
     generateUniqueId,
+    selectedApi,
   } = useContext(Context);
 
   const divRef = useRef(null);
@@ -58,11 +60,20 @@ export default function CenterNav() {
   };
 
   const callApi = async (input) => {
-    if (localStorage.getItem("selected_api") === "Openai") {
+    if (
+      localStorage.getItem("selected_api") === "Openai" ||
+      selectedApi === "Openai"
+    ) {
       await openai_textToText(input);
-    } else if (localStorage.getItem("selected_api") === "Chatgptmall") {
+    } else if (
+      localStorage.getItem("selected_api") === "Chatgptmall" ||
+      selectedApi === "Chatgptmall"
+    ) {
       await chatgptmall_textToText(input);
-    } else if (localStorage.getItem("selected_api") === "Microsoft") {
+    } else if (
+      localStorage.getItem("selected_api") === "Microsoft" ||
+      selectedApi === "Microsoft"
+    ) {
       await microsoft_textToText(input);
     } else {
       microsoft_textToText(input);
@@ -164,6 +175,9 @@ export default function CenterNav() {
                     <p>
                       <TypeWritter response={res.response} />
                     </p>
+                    <span className="speaker">
+                      <TextToSpeech text={res.response}></TextToSpeech>
+                    </span>
                     <span
                       onClick={() => {
                         copyContent(res.response);

@@ -8,11 +8,12 @@ export const AppContext = (props) => {
 
   function generateUniqueId() {
     const timestamp = Date.now().toString();
-    const randomNum = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
+    const randomNum = Math.floor(Math.random() * 1000000)
+      .toString()
+      .padStart(6, "0");
     const uniqueId = timestamp + randomNum;
     return uniqueId;
   }
-  
 
   const BaseUrl = "https://chatgptmall.tech/api/v1/";
   const [active, setActive] = useState(false);
@@ -27,6 +28,7 @@ export const AppContext = (props) => {
   const [responseInput, setresponseInput] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(false);
+  const [selectedApi, changeSelectedApi] = useState("Microsoft");
 
   const config = {
     headers: {
@@ -107,6 +109,8 @@ export const AppContext = (props) => {
         response,
         setLoading,
         generateUniqueId,
+        selectedApi,
+        changeSelectedApi,
       }}
     >
       {props.children}

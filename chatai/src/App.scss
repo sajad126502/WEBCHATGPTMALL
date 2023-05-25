@@ -162,7 +162,7 @@
         height: auto;
         overflow-y: auto;
         span {
-          font-size: 1.6rem;
+          font-size: 1.2rem;
         }
         p {
           letter-spacing: 1px;
@@ -201,6 +201,11 @@
             &:hover {
               opacity: 0.8;
             }
+          }
+          .speaker {
+            position: absolute;
+            right: 80px;
+            margin-top: 7px;
           }
         }
       }
