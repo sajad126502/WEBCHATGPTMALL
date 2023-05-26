@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { FaArrowLeft, FaCheck, FaHammer, FaKey } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -332,7 +333,7 @@ export default function LeftNav() {
               <span className="icon">
                 <FaHammer></FaHammer>
               </span>
-              <span>Settings</span>
+              <Link to={"/settings"}>Settings</Link>
             </li>
           </ul>
         </div>

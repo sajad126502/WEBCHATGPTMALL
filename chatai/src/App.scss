@@ -1,4 +1,5 @@
 .App {
+  font-family: "Roboto", sans-serif;
   .arrow {
     position: absolute;
     color: white;
@@ -45,15 +46,15 @@
         margin-top: 5px;
         background-color: #202123;
         border: none;
-        
+
         .Dropdown-option {
           color: #ffffff;
           &.is-selected {
-             background-color: #34383b;
-           }
-           &:hover {
             background-color: #34383b;
-           }
+          }
+          &:hover {
+            background-color: #34383b;
+          }
         }
       }
     }
@@ -296,6 +297,119 @@
       }
       100% {
         opacity: 1;
+      }
+    }
+  }
+  .settings {
+    width: 100vw;
+    height: 100vh;
+    margin: auto;
+    background-color: #292935;
+    padding: 30px 50px;
+
+    .settings-wrapper {
+      transition: all 0.5s ease-in-out;
+      position: relative;
+      left: 138px;
+      width: 70%;
+      height: 100%;
+      margin: 0 auto;
+      background-color: #12121a;
+      border-radius: 20px;
+      padding: 20px;
+
+      .header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        font-size: 0.8rem;
+        letter-spacing: 2px;
+        color: white;
+        
+        .back-icon {
+          width: 1.2rem;
+          color: white;
+        }
+      }  
+      .search-bar {
+        input {
+          width: 50%;
+          margin: 2rem auto;
+          background-color: #12121a;
+          color: wheat;
+          border-radius: 0;
+          border: none;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.39);
+
+          &::placeholder {
+            color: rgba(255, 255, 255, 0.596);
+          }
+          &:focus {
+            outline: none;
+            box-shadow: none !important;
+          }
+        }
+      }
+      .api-keys-wrapper {
+        border: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.075);
+        border-radius: 0;
+        padding: 20px 10px;
+        height: 60vh;
+        overflow-y: auto;
+
+        .api-keys-header {
+          width: 100%;
+          margin: 0 auto;
+
+          p {
+            color: white;
+            letter-spacing: 2px;
+            font-size: 0.7rem;
+            text-align: center;
+          }
+        }
+        .api-keys {
+          li {
+            color: white;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+
+            span {
+              width: 14%;
+            }
+
+            input {
+              width: 70%;
+              background: none;
+              border: none;
+              border-radius: 0;
+              color: rgba(255, 255, 255, 0.582);
+              letter-spacing: 2px;
+              font-size: 0.7rem;
+              border-bottom: 1px solid rgba(255, 255, 255, 0.411);
+              &::placeholder {
+                color: rgba(255, 255, 255, 0.596);
+                font-size: 0.6rem;
+              }
+              &:focus {
+                outline: none;
+                box-shadow: none !important;
+              }
+            }
+            .eye-icon,
+            .check-icon {
+              width: 1rem;
+            }
+          }
+        }
+        &::-webkit-scrollbar {
+          display: none;
+        }
+      }
+      &.active {
+        left: 0;
       }
     }
   }
