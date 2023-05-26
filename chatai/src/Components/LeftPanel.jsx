@@ -333,7 +333,7 @@ export default function LeftNav() {
               <span className="icon">
                 <FaHammer></FaHammer>
               </span>
-              <Link to={"/settings"}>Settings</Link>
+              <Link className="nav-link" to={"/settings"}>Settings</Link>
             </li>
           </ul>
         </div>
