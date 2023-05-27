@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { FaArrowLeft, FaCheck, FaHammer, FaKey } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -185,47 +186,46 @@ export default function LeftNav() {
                   </span>
                 </>
               )}
-              {microSoftApiForm &&
-                microSoftApiForm && (
-                  <form className="d-flex align-items-center gap-2">
-                    <input
-                      type="password"
-                      autoComplete="off"
-                      placeholder="Api Key"
-                      className="form-control form-control-sm"
-                      value={ApiKey}
-                      onChange={(e) => {
-                        setApiKey(e.target.value);
+              {microSoftApiForm && microSoftApiForm && (
+                <form className="d-flex align-items-center gap-2">
+                  <input
+                    type="password"
+                    autoComplete="off"
+                    placeholder="Api Key"
+                    className="form-control form-control-sm"
+                    value={ApiKey}
+                    onChange={(e) => {
+                      setApiKey(e.target.value);
+                    }}
+                  />
+                  <span className="btn btn-sm text-white p-0 ">
+                    <FaCheck
+                      onClick={() => {
+                        localStorage.setItem("microsoft_apikey", ApiKey);
+                        setMicroSoftApiForm(false);
+                        setMicroSoftEndPoint(true);
+                        toast.success("Microsoft Api Saved", {
+                          position: "top-right",
+                          autoClose: 2000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                          theme: "dark",
+                        });
                       }}
-                    />
-                    <span className="btn btn-sm text-white p-0 ">
-                      <FaCheck
-                        onClick={() => {
-                          localStorage.setItem("microsoft_apikey", ApiKey);
-                          setMicroSoftApiForm(false);
-                          setMicroSoftEndPoint(true);
-                          toast.success("Microsoft Api Saved", {
-                            position: "top-right",
-                            autoClose: 2000,
-                            hideProgressBar: false,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                            theme: "dark",
-                          });
-                        }}
-                      ></FaCheck>
-                    </span>
-                    <span className="btn btn-sm text-white p-0 ">
-                      <FaArrowLeft
-                        onClick={() => {
-                          setMicroSoftApiForm(false);
-                        }}
-                      ></FaArrowLeft>
-                    </span>
-                  </form>
-                )}
+                    ></FaCheck>
+                  </span>
+                  <span className="btn btn-sm text-white p-0 ">
+                    <FaArrowLeft
+                      onClick={() => {
+                        setMicroSoftApiForm(false);
+                      }}
+                    ></FaArrowLeft>
+                  </span>
+                </form>
+              )}
 
               {microSoftEndPoint && (
                 <form className="d-flex align-items-center gap-2">
@@ -255,7 +255,6 @@ export default function LeftNav() {
                           progress: undefined,
                           theme: "dark",
                         });
-                        
                       }}
                     ></FaCheck>
                   </span>
@@ -314,7 +313,6 @@ export default function LeftNav() {
                           progress: undefined,
                           theme: "dark",
                         });
-                        
                       }}
                     ></FaCheck>
                   </span>
@@ -328,12 +326,15 @@ export default function LeftNav() {
                 </form>
               )}
             </li>
-            <li className="d-flex gap-3 py-2 my-1 list-group-item border-0 rounded-3">
+            <Link
+              to={"/settings"}
+              className="li d-flex gap-3 py-2 my-1 list-group-item border-0 rounded-3"
+            >
               <span className="icon">
                 <FaHammer></FaHammer>
               </span>
-              <span>Settings</span>
-            </li>
+              <span className="nav-link">Settings</span>
+            </Link>
           </ul>
         </div>
       </div>
