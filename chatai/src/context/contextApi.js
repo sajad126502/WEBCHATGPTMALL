@@ -1,5 +1,7 @@
 import axios from "axios";
 import React, { createContext, useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const Context = createContext();
 
@@ -29,6 +31,9 @@ export const AppContext = (props) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [selectedApi, changeSelectedApi] = useState("Microsoft");
+  const [no_of_licenses, setNoOfLicenses] = useState(null);
+  const [organization, setOrganization] = useState("");
+  const [email, setEmail] = useState("");
 
   const config = {
     headers: {
@@ -38,14 +43,12 @@ export const AppContext = (props) => {
 
   const fetchData = async (apiUrl, body, requestOptions = {}) => {
     try {
-      if (body.input.length > 0) {
-        const res = await axios.post(apiUrl, body, requestOptions);
-        setresponseText(res.data.response);
-        Data.push(...response, res.data);
-        console.log(Data);
-        setresponse(Data);
-        setresponseInput(res.data.input);
-      }
+      const res = await axios.post(apiUrl, body, requestOptions);
+      setresponseText(res.data.response);
+      Data.push(...response, res.data);
+      console.log(Data);
+      setresponse(Data);
+      setresponseInput(res.data.input);
     } catch (err) {
       console.log(err);
     }
@@ -80,6 +83,73 @@ export const AppContext = (props) => {
     fetchData(apiUrl, body);
   };
 
+  const getLicense = async () => {
+    setLoading(true);
+    if (no_of_licenses === null || organization === "" || email === "") {
+      toast.error("Please fill all the fields", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      setLoading(false);
+      return;
+    }
+    const apiUrl = BaseUrl + "licenses/";
+    const body = {
+      no_of_licenses,
+      organization,
+      email,
+    };
+    try {
+      const res = await axios.post(apiUrl, body);
+      console.log(res);
+      if (res.status === 201) {
+        toast.success(res.data.msg, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
+      if (res.status === 200) {
+        toast.warning(res.data.msg, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
+      setLoading(false);
+      setNoOfLicenses('');
+      setOrganization("");
+      setEmail("");
+    } catch (err) {
+      toast.error("Something went wrong!", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
+  };
+
   return (
     <Context.Provider
       value={{
@@ -111,6 +181,13 @@ export const AppContext = (props) => {
         generateUniqueId,
         selectedApi,
         changeSelectedApi,
+        getLicense,
+        setNoOfLicenses,
+        setOrganization,
+        setEmail,
+        no_of_licenses,
+        organization,
+        email,
       }}
     >
       {props.children}

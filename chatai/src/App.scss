@@ -300,14 +300,16 @@
       }
     }
   }
-  .settings {
+  .settings,
+  .license {
     width: 100vw;
     height: 100vh;
     margin: auto;
     background-color: #292935;
     padding: 30px 50px;
 
-    .settings-wrapper {
+    .settings-wrapper,
+    .license-wrapper {
       transition: all 0.5s ease-in-out;
       position: relative;
       left: 138px;
@@ -351,13 +353,21 @@
           }
         }
       }
-      .api-keys-wrapper {
+      .api-keys-wrapper,
+      .license-form {
         border: none;
         border-top: 1px solid rgba(255, 255, 255, 0.075);
         border-radius: 0;
         padding: 20px 10px;
         height: 60vh;
         overflow-y: auto;
+
+        p {
+          font-size: 10px;
+          letter-spacing: 1px;
+          padding: 2rem 0;
+        }
+        
 
         .api-keys-header {
           width: 100%;
@@ -401,6 +411,24 @@
             .eye-icon,
             .check-icon {
               width: 1rem;
+            }
+          }
+        }
+        .form {
+          input {
+            background-color: transparent;
+            color: white;
+            font-size: 10px;
+            letter-spacing: 1px;
+
+            &::placeholder {
+              color: rgba(255, 255, 255, 0.589);
+              font-size: 9px;
+              letter-spacing: 1px;
+            }
+            &:focus {
+              outline: none;
+              box-shadow: none !important;
             }
           }
         }

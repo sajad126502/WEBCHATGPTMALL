@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
-import { FaArrowLeft, FaCheck, FaHammer, FaKey } from "react-icons/fa";
+import { FaAddressBook, FaArrowLeft, FaCheck, FaHammer, FaKey } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Context } from "../context/contextApi";
 import { useContext, useEffect, useState } from "react";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
+import CIcon from "@coreui/icons-react";
+import { cilHome } from "@coreui/icons";
 
 export default function LeftNav() {
   const {
@@ -334,6 +336,16 @@ export default function LeftNav() {
                 <FaHammer></FaHammer>
               </span>
               <span className="nav-link">Settings</span>
+            </Link>
+
+            <Link
+              to={"/license"}
+              className="li d-flex gap-3 py-2 my-1 list-group-item border-0 rounded-3"
+            >
+              <span className="icon">
+              <FaAddressBook></FaAddressBook>
+              </span>
+              <span className="nav-link">License</span>
             </Link>
           </ul>
         </div>
