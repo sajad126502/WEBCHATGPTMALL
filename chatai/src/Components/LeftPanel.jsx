@@ -345,7 +345,7 @@ export default function LeftNav() {
               <span className="icon">
               <FaAddressBook></FaAddressBook>
               </span>
-              <span className="nav-link">License</span>
+              <span className="nav-link">Add Licenses</span>
             </Link>
           </ul>
         </div>
