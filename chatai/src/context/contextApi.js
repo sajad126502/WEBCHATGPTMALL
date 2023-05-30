@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { createContext, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import CreateLicense from '../Components/CreateLicene';
 
 export const Context = createContext();
 
@@ -150,6 +151,52 @@ export const AppContext = (props) => {
     }
   };
 
+  const createLicense = async (data) => {
+   setLoading(true);
+   if(data) {
+    const apiUrl = BaseUrl + "create_licenses/";
+    try {
+       const res = await axios.post(apiUrl, data)
+       if(res.status === 200) {
+        toast.warning(res.data.msg, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+       }
+        if(res.status === 201) {
+          toast.success(res.data.msg, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+        }
+    } catch(err) {
+      toast.error("Something went wrong!", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
+   }
+   setLoading(false);
+  }
+
   return (
     <Context.Provider
       value={{
@@ -188,6 +235,7 @@ export const AppContext = (props) => {
         no_of_licenses,
         organization,
         email,
+        createLicense,
       }}
     >
       {props.children}

@@ -26,7 +26,7 @@ export default function License() {
       <div className="license">
         <div className={`license-wrapper ${active ? "active" : ""}`}>
           <div className="header">
-            <span>Add Licenses</span>
+            <span>Request Licenses</span>
             <Link to={"/"} className="back-icon">
               <CIcon icon={cilHome} />
             </Link>

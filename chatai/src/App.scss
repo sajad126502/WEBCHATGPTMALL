@@ -62,7 +62,8 @@
       ul {
         border-top: 1px solid #3d3f42;
 
-        li, .li {
+        li,
+        .li {
           height: 40px;
           cursor: pointer;
           background-color: transparent;
@@ -301,7 +302,8 @@
     }
   }
   .settings,
-  .license {
+  .license,
+  .create-license {
     width: 100vw;
     height: 100vh;
     margin: auto;
@@ -328,12 +330,12 @@
         font-size: 0.8rem;
         letter-spacing: 2px;
         color: white;
-        
+
         .back-icon {
           width: 1.2rem;
           color: white;
         }
-      }  
+      }
       .search-bar {
         input {
           width: 50%;
@@ -354,7 +356,8 @@
         }
       }
       .api-keys-wrapper,
-      .license-form {
+      .license-form,
+      .create-license-form {
         border: none;
         border-top: 1px solid rgba(255, 255, 255, 0.075);
         border-radius: 0;
@@ -362,12 +365,21 @@
         height: 60vh;
         overflow-y: auto;
 
+        .dragAndDrop {
+          text-align: center;
+          color: white;
+          border-radius: 20px;
+          border: 1px dashed #413c3c5b;
+        }
+        
+        .drag-active {
+          border: 1px dashed #ffffff;
+        }
         p {
           font-size: 10px;
           letter-spacing: 1px;
           padding: 2rem 0;
         }
-        
 
         .api-keys-header {
           width: 100%;
