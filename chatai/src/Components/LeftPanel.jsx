@@ -6,8 +6,6 @@ import { Context } from "../context/contextApi";
 import { useContext, useEffect, useState } from "react";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
-import CIcon from "@coreui/icons-react";
-import { cilHome } from "@coreui/icons";
 
 export default function LeftNav() {
   const {
@@ -345,7 +343,17 @@ export default function LeftNav() {
               <span className="icon">
               <FaAddressBook></FaAddressBook>
               </span>
-              <span className="nav-link">Add Licenses</span>
+              <span className="nav-link">Request Licenses</span>
+            </Link>
+
+            <Link
+              to={"/create-licenses"}
+              className="li d-flex gap-3 py-2 my-1 list-group-item border-0 rounded-3"
+            >
+              <span className="icon">
+              <FaAddressBook></FaAddressBook>
+              </span>
+              <span className="nav-link">Create Licenses</span>
             </Link>
           </ul>
         </div>
