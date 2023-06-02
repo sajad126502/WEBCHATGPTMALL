@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { createContext, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import CreateLicense from '../Components/CreateLicene';
 
 export const Context = createContext();
 
@@ -134,7 +133,7 @@ export const AppContext = (props) => {
         });
       }
       setLoading(false);
-      setNoOfLicenses('');
+      setNoOfLicenses("");
       setOrganization("");
       setEmail("");
     } catch (err) {
@@ -152,24 +151,24 @@ export const AppContext = (props) => {
   };
 
   const createLicense = async (data) => {
-   setLoading(true);
-   if(data) {
-    const apiUrl = BaseUrl + "create_licenses/";
-    try {
-       const res = await axios.post(apiUrl, data)
-       if(res.status === 200) {
-        toast.warning(res.data.msg, {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        });
-       }
-        if(res.status === 201) {
+    setLoading(true);
+    if (data) {
+      const apiUrl = BaseUrl + "create_licenses/";
+      try {
+        const res = await axios.post(apiUrl, data);
+        if (res.status === 200) {
+          toast.warning(res.data.msg, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+        }
+        if (res.status === 201) {
           toast.success(res.data.msg, {
             position: "top-right",
             autoClose: 2000,
@@ -181,21 +180,21 @@ export const AppContext = (props) => {
             theme: "dark",
           });
         }
-    } catch(err) {
-      toast.error("Something went wrong!", {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
+      } catch (err) {
+        toast.error("Something went wrong!", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
     }
-   }
-   setLoading(false);
-  }
+    setLoading(false);
+  };
 
   return (
     <Context.Provider
