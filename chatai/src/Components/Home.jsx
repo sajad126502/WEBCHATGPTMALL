@@ -57,6 +57,7 @@ export default function Home() {
               }
             />
             <Route path="/:segment1/room/:id" element={<Room />} />
+            <Route path="/skybrain/customer/:id" element={<CenterNav></CenterNav>} />
           </Routes>
         </div>
       </BrowserRouter>

@@ -34,6 +34,9 @@ export const AppContext = (props) => {
   const [no_of_licenses, setNoOfLicenses] = useState(null);
   const [organization, setOrganization] = useState("");
   const [email, setEmail] = useState("");
+  const [room_key, setRoom_Key] = useState("");
+  const [room_organization, setRoom_Organization] = useState("");
+  const [room_id, setRoom_Id] = useState("");
 
   const config = {
     headers: {
@@ -157,40 +160,37 @@ export const AppContext = (props) => {
       try {
         const res = await axios.post(apiUrl, data);
         if (res.status === 200) {
-          toast.warning(res.data.msg, {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          });
+          toast.warning(res.data.msg);
         }
         if (res.status === 201) {
-          toast.success(res.data.msg, {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          });
+          toast.success(res.data.msg);
         }
       } catch (err) {
-        toast.error("Something went wrong!", {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
+        toast.error("Something went wrong!");
+      }
+    }
+    setLoading(false);
+  };
+
+  const getCustomer = async () => {
+    setLoading(true);
+    if (
+      room_id.length > 0 &&
+      room_key.length > 0 &&
+      room_organization.length > 0
+    ) {
+      const apiUrl = BaseUrl + "skybrain/customer/";
+      try {
+        const res = await axios.post(apiUrl, {
+          room_id,
+          room_key,
+          organization: room_organization,
         });
+        if (res.status === 201) {
+          toast.success(res.data.msg);
+        }
+      } catch (err) {
+        toast.error("Something went wrong!");
       }
     }
     setLoading(false);
@@ -235,6 +235,13 @@ export const AppContext = (props) => {
         organization,
         email,
         createLicense,
+        room_id,
+        setRoom_Id,
+        room_key,
+        setRoom_Key,
+        room_organization,
+        setRoom_Organization,
+        getCustomer,
       }}
     >
       {props.children}
