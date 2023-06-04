@@ -7,7 +7,7 @@ export const Context = createContext();
 
 export const AppContext = (props) => {
   let Data = [];
-
+  
   function generateUniqueId() {
     const timestamp = Date.now().toString();
     const randomNum = Math.floor(Math.random() * 1000000)
@@ -89,16 +89,7 @@ export const AppContext = (props) => {
   const getLicense = async () => {
     setLoading(true);
     if (no_of_licenses === null || organization === "" || email === "") {
-      toast.error("Please fill all the fields", {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
+      toast.error("Please fill all the fields");
       setLoading(false);
       return;
     }
@@ -112,44 +103,17 @@ export const AppContext = (props) => {
       const res = await axios.post(apiUrl, body);
       console.log(res);
       if (res.status === 201) {
-        toast.success(res.data.msg, {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        });
+        toast.success(res.data.msg);
       }
       if (res.status === 200) {
-        toast.warning(res.data.msg, {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-        });
+        toast.warning(res.data.msg);
       }
       setLoading(false);
       setNoOfLicenses("");
       setOrganization("");
       setEmail("");
     } catch (err) {
-      toast.error("Something went wrong!", {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
+      toast.error("Something went wrong!");
     }
   };
 
@@ -182,15 +146,24 @@ export const AppContext = (props) => {
       const apiUrl = BaseUrl + "skybrain/customer/";
       try {
         const res = await axios.post(apiUrl, {
-          room_id,
+          room_id: parseFloat(room_id),
           room_key,
           organization: room_organization,
         });
         if (res.status === 201) {
           toast.success(res.data.msg);
+          changeSelectedApi("Chatgptmall");
+          localStorage.setItem("selected_api", "Chatgptmall");
+          localStorage.setItem("user_permission", room_key);
+          window.location.href = '/' + room_organization + '/' + room_id;
         }
       } catch (err) {
-        toast.error("Something went wrong!");
+        console.log(err);
+        toast.error(
+          err?.response?.data?.error
+            ? err.response.data.error
+            : "Something went wrong!"
+        );
       }
     }
     setLoading(false);
