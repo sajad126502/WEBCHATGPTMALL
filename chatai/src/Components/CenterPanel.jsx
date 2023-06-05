@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { useParams, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Context } from "../context/contextApi";
 import SpeechRecognition, {
@@ -20,6 +21,7 @@ import TextToSpeech from "./TextToSpeech";
 export default function CenterNav() {
   const {
     active,
+    setActive,
     searchQuery,
     setSearchQuery,
     openai_textToText,
@@ -32,6 +34,10 @@ export default function CenterNav() {
     generateUniqueId,
     selectedApi,
   } = useContext(Context);
+
+  const params = useParams();
+  const navigate = useNavigate();
+
 
   const divRef = useRef(null);
   const [recording, setRecording] = useState(false);
@@ -76,9 +82,18 @@ export default function CenterNav() {
     ) {
       await microsoft_textToText(input);
     } else {
-      microsoft_textToText(input);
+      await microsoft_textToText(input);
     }
   };
+
+  useEffect(() => {
+    const userPermission = localStorage.getItem("user_permission");
+    if (!userPermission) {
+      navigate("/");
+    } else {
+      setActive(true);
+    }
+  }, []);
 
   useEffect(() => {
     const divElement = divRef.current;
@@ -103,6 +118,7 @@ export default function CenterNav() {
           </span>
         )}
         {!(
+          localStorage.getItem("user_permission") ||
           localStorage.getItem("openAi_apiKey") ||
           localStorage.getItem("chatgptmall_apikey") ||
           (localStorage.getItem("microsoft_apikey") &&
@@ -130,7 +146,8 @@ export default function CenterNav() {
             </p>
           </div>
         )}
-        {(localStorage.getItem("openAi_apiKey") ||
+        {(localStorage.getItem("user_permission") ||
+          localStorage.getItem("openAi_apiKey") ||
           localStorage.getItem("chatgptmall_apikey") ||
           (localStorage.getItem("microsoft_apikey") &&
             localStorage.getItem("microsoft_endpoint"))) && (
@@ -247,18 +264,6 @@ export default function CenterNav() {
           </div>
         )}
       </div>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
     </>
   );
 }

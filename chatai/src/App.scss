@@ -465,6 +465,14 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      
+      .header {
+        color: #ffffff;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 11px;
+        margin-bottom: 3rem;
+      }
 
       .form-control {
         width: 400px;
@@ -477,6 +485,9 @@
           font-size: 10px;
           letter-spacing: 1px;
         }
+      }
+      .btn {
+        width: 400px;
       }
     }
   }
