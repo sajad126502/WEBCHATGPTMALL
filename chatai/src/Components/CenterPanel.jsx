@@ -31,6 +31,7 @@ export default function CenterNav() {
     chatgptmall_textToText,
     chatgptmall_room_textToText,
     microsoft_textToText,
+    setLanguage,
     responseInput,
     loading,
     response,
@@ -45,7 +46,6 @@ export default function CenterNav() {
   const divRef = useRef(null);
   const [recording, setRecording] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
-  const [language, setLanguage] = useState("");
   const [convertedAudio, setConvertedAudio] = useState("false");
   const languages = [
     { text: "English", value: "IN" },
@@ -91,13 +91,14 @@ export default function CenterNav() {
       await openai_textToText(input);
     } else if (
       (localStorage.getItem("selected_api") === "Chatgptmall" ||
-      selectedApi === "Chatgptmall") && !localStorage.getItem('user_permission')
+        selectedApi === "Chatgptmall") &&
+      !localStorage.getItem("user_permission")
     ) {
       await chatgptmall_textToText(input);
-    }
-    else if (
+    } else if (
       (localStorage.getItem("selected_api") === "Chatgptmall" ||
-      selectedApi === "Chatgptmall") && localStorage.getItem('user_permission')
+        selectedApi === "Chatgptmall") &&
+      localStorage.getItem("user_permission")
     ) {
       await chatgptmall_room_textToText(input);
     } else if (
@@ -143,8 +144,18 @@ export default function CenterNav() {
         )}
         {localStorage.getItem("user_permission") && (
           <div className="languages">
-            <button onClick={()=>{setShowDropdown(!showDropdown)}} className="d-flex align-items-center justify-content-center gap-2 gap-1 btn btn-sm py-1 px-2 btn-dark rounded-3 border-0">
-              <span> {language ? language : "Select Language"} </span>
+            <button
+              onClick={() => {
+                setShowDropdown(!showDropdown);
+              }}
+              className="d-flex align-items-center justify-content-center gap-2 gap-1 btn btn-sm py-1 px-2 btn-dark rounded-3 border-0"
+            >
+              <span>
+                {" "}
+                {localStorage.getItem("language")
+                  ? localStorage.getItem("language")
+                  : "Select Language"}{" "}
+              </span>
               <span>
                 {" "}
                 <CIcon
@@ -163,8 +174,9 @@ export default function CenterNav() {
                       key={index}
                       onClick={() => {
                         setLanguage(lang.text);
-                        console.log(lang, language);
+                        localStorage.setItem("language", lang.text);
                         setShowDropdown(false);
+                        toast.success("Language changed successfully");
                       }}
                     >
                       {lang.text}

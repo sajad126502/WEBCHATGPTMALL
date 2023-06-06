@@ -23,6 +23,8 @@ export default function Room() {
     const { segment1, id } = params;
     setRoom_Organization(segment1);
     setRoom_Id(id);
+    localStorage.setItem("room_organization", segment1);
+    localStorage.setItem("room_id", id);
 
     if (rooms.length === 0) {
       setIsLoading(true);

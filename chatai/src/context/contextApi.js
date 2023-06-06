@@ -7,7 +7,7 @@ export const Context = createContext();
 
 export const AppContext = (props) => {
   let Data = [];
-  
+
   function generateUniqueId() {
     const timestamp = Date.now().toString();
     const randomNum = Math.floor(Math.random() * 1000000)
@@ -38,6 +38,7 @@ export const AppContext = (props) => {
   const [room_key, setRoom_Key] = useState("");
   const [room_organization, setRoom_Organization] = useState("");
   const [room_id, setRoom_Id] = useState("");
+  const [language, setLanguage] = useState("");
 
   const config = {
     headers: {
@@ -45,9 +46,14 @@ export const AppContext = (props) => {
     },
   };
 
-  const fetchData = async (apiUrl, body, requestOptions = {}) => {
+  const fetchData = async (apiUrl, body, requestOptions = {}, Params = {}) => {
     try {
-      const res = await axios.post(apiUrl, body, requestOptions);
+      if (Params) {
+        const { room_id, language } = Params;
+        var params = { room_id, language };
+      }
+
+      const res = await axios.post(apiUrl, body, { ...requestOptions, params });
       setresponseText(res.data.response);
       Data.push(...response, res.data);
       console.log(Data);
@@ -79,8 +85,10 @@ export const AppContext = (props) => {
   const chatgptmall_room_textToText = (input) => {
     setLoading(true);
     const apiUrl = BaseUrl + "room/text_to_text/";
-    const requestOptions = { headers: config.headers, boddy: room_id };
-    fetchData(apiUrl, { input }, requestOptions);
+    const language = localStorage.getItem("language");
+    const room_id = localStorage.getItem("room_id");
+    const requestOptions = { headers: config.headers };
+    fetchData(apiUrl, { input }, requestOptions, { room_id, language });
   };
 
   const microsoft_textToText = (input) => {
@@ -163,7 +171,7 @@ export const AppContext = (props) => {
           changeSelectedApi("Chatgptmall");
           localStorage.setItem("selected_api", "Chatgptmall");
           localStorage.setItem("user_permission", room_key);
-          window.location.href = '/' + room_organization + '/' + room_id;
+          window.location.href = "/" + room_organization + "/" + room_id;
         }
       } catch (err) {
         console.log(err);
@@ -224,6 +232,8 @@ export const AppContext = (props) => {
         room_organization,
         setRoom_Organization,
         getCustomer,
+        language,
+        setLanguage,
       }}
     >
       {props.children}
