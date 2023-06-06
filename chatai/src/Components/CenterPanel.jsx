@@ -38,9 +38,11 @@ export default function CenterNav() {
   const params = useParams();
   const navigate = useNavigate();
 
+  console.log(params.segment1)
 
   const divRef = useRef(null);
   const [recording, setRecording] = useState(false);
+  const [_params, setParams] = useState('');
   const [convertedAudio, setConvertedAudio] = useState("false");
 
   let {
@@ -157,7 +159,10 @@ export default function CenterNav() {
             className={`chatbot-ui ${active ? "active" : ""}`}
           >
             {!loading && responseInput.length < 1 && (
-              <h2 className="text-center">Text To Text</h2>
+              <h2 className="text-center text-capitalize">{params.segment1 !== undefined ?  `Welcome to ${params.segment1}`: 'Text To Text'}</h2>
+            )}
+            {!loading && responseInput.length < 1 && params.id && (
+              <p className="text-center text-white text-capitalize ms-5 mt-5">{params.id !== undefined &&  `Room No ${params.id}`}</p>
             )}
             <span>|</span>
             {response?.map((res) => {
