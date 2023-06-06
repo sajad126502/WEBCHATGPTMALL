@@ -18,6 +18,7 @@ export const AppContext = (props) => {
   }
 
   const BaseUrl = "https://chatgptmall.tech/api/v1/";
+
   const [active, setActive] = useState(false);
   const [showOpenaiApiForm, setShowOpenaiApiForm] = useState(false);
   const [showChatgptmallApiForm, setShowChatgptmallApiForm] = useState(false);
@@ -72,6 +73,13 @@ export const AppContext = (props) => {
     setLoading(true);
     const apiUrl = BaseUrl + "text_to_text/";
     const requestOptions = { headers: config.headers };
+    fetchData(apiUrl, { input }, requestOptions);
+  };
+
+  const chatgptmall_room_textToText = (input) => {
+    setLoading(true);
+    const apiUrl = BaseUrl + "room/text_to_text/";
+    const requestOptions = { headers: config.headers, boddy: room_id };
     fetchData(apiUrl, { input }, requestOptions);
   };
 
@@ -182,6 +190,7 @@ export const AppContext = (props) => {
         setMicroSoftApiForm,
         microSoftEndPoint,
         setMicroSoftEndPoint,
+        chatgptmall_room_textToText,
         microsoft_textToText,
         ApiKey,
         setApiKey,

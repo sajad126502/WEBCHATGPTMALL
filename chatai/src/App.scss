@@ -1,5 +1,36 @@
 .App {
   font-family: "Roboto", sans-serif;
+  .languages {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+
+    button { 
+      font-size: 11px;
+      letter-spacing: 1px;
+      width: 140px;
+    }
+
+    .language-list {
+      background-color: #202123;
+      margin-top: 5px;
+      border-radius: 10px;
+      padding: 5px;
+      .langs {
+        z-index: 9;
+         padding: 3px 5px;
+         color: #ffffff;
+         font-size: 11px;
+         letter-spacing: 1px;
+         width: 100%;
+         cursor: pointer;
+
+         &:hover {
+          background-color: #3a3b3c;
+         }
+      }
+    }
+  }
   .arrow {
     position: absolute;
     color: white;
@@ -260,7 +291,6 @@
           letter-spacing: 1px;
         }
         p {
-          margin-left: 30px;
           font-size: 15px;
           letter-spacing: 1px;
         }

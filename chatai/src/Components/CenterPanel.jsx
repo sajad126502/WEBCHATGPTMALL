@@ -1,4 +1,6 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
+import CIcon from "@coreui/icons-react";
+
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -17,6 +19,7 @@ import {
 import PulseLoader from "react-spinners/PulseLoader";
 import TypeWritter from "./TypeWritter";
 import TextToSpeech from "./TextToSpeech";
+import { cilLevelDown } from "@coreui/icons";
 
 export default function CenterNav() {
   const {
@@ -26,6 +29,7 @@ export default function CenterNav() {
     setSearchQuery,
     openai_textToText,
     chatgptmall_textToText,
+    chatgptmall_room_textToText,
     microsoft_textToText,
     responseInput,
     loading,
@@ -38,12 +42,24 @@ export default function CenterNav() {
   const params = useParams();
   const navigate = useNavigate();
 
-  console.log(params.segment1)
-
   const divRef = useRef(null);
   const [recording, setRecording] = useState(false);
-  const [_params, setParams] = useState('');
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [language, setLanguage] = useState("");
   const [convertedAudio, setConvertedAudio] = useState("false");
+  const languages = [
+    { text: "English", value: "IN" },
+    { text: "Spanish", value: "SP" },
+    { text: "French", value: "FR" },
+    { text: "German", value: "GM" },
+    { text: "Italian", value: "IT" },
+    { text: "Portuguese", value: "PR" },
+    { text: "Russian", value: "RU" },
+    { text: "Chinese", value: "CH" },
+    { text: "Japanese", value: "JP" },
+    { text: "Korean", value: "KR" },
+    { text: "Arabic", value: "AR" },
+  ];
 
   let {
     transcript,
@@ -74,10 +90,16 @@ export default function CenterNav() {
     ) {
       await openai_textToText(input);
     } else if (
-      localStorage.getItem("selected_api") === "Chatgptmall" ||
-      selectedApi === "Chatgptmall"
+      (localStorage.getItem("selected_api") === "Chatgptmall" ||
+      selectedApi === "Chatgptmall") && !localStorage.getItem('user_permission')
     ) {
       await chatgptmall_textToText(input);
+    }
+    else if (
+      (localStorage.getItem("selected_api") === "Chatgptmall" ||
+      selectedApi === "Chatgptmall") && localStorage.getItem('user_permission')
+    ) {
+      await chatgptmall_room_textToText(input);
     } else if (
       localStorage.getItem("selected_api") === "Microsoft" ||
       selectedApi === "Microsoft"
@@ -119,6 +141,40 @@ export default function CenterNav() {
             <PulseLoader color="#ffffff" size={"10px"} />
           </span>
         )}
+        {localStorage.getItem("user_permission") && (
+          <div className="languages">
+            <button onClick={()=>{setShowDropdown(!showDropdown)}} className="d-flex align-items-center justify-content-center gap-2 gap-1 btn btn-sm py-1 px-2 btn-dark rounded-3 border-0">
+              <span> {language ? language : "Select Language"} </span>
+              <span>
+                {" "}
+                <CIcon
+                  style={{ width: "18px" }}
+                  color="#989898"
+                  icon={cilLevelDown}
+                ></CIcon>{" "}
+              </span>
+            </button>
+            {showDropdown && (
+              <span className="language-list d-flex flex-column justify-content-center align-items-center">
+                {languages.map((lang, index) => {
+                  return (
+                    <span
+                      className="langs"
+                      key={index}
+                      onClick={() => {
+                        setLanguage(lang.text);
+                        console.log(lang, language);
+                        setShowDropdown(false);
+                      }}
+                    >
+                      {lang.text}
+                    </span>
+                  );
+                })}
+              </span>
+            )}
+          </div>
+        )}
         {!(
           localStorage.getItem("user_permission") ||
           localStorage.getItem("openAi_apiKey") ||
@@ -159,10 +215,16 @@ export default function CenterNav() {
             className={`chatbot-ui ${active ? "active" : ""}`}
           >
             {!loading && responseInput.length < 1 && (
-              <h2 className="text-center text-capitalize">{params.segment1 !== undefined ?  `Welcome to ${params.segment1}`: 'Text To Text'}</h2>
+              <h2 className="text-center text-capitalize">
+                {params.segment1 !== undefined
+                  ? `Welcome to ${params.segment1}`
+                  : "Text To Text"}
+              </h2>
             )}
             {!loading && responseInput.length < 1 && params.id && (
-              <p className="text-center text-white text-capitalize mt-5">{params.id !== undefined &&  `Room No ${params.id}`}</p>
+              <p className="text-center text-white text-capitalize mt-5">
+                {params.id !== undefined && `Room No ${params.id}`}
+              </p>
             )}
             <span>|</span>
             {response?.map((res) => {
@@ -191,7 +253,7 @@ export default function CenterNav() {
                     )}
                   </div>
                   <div className="response-text d-flex py-3 gap-4">
-                    <span className="ps-3" style={{ fontSize: "2rem" }}>
+                    <span className="ps-3" style={{ fontSize: "1.5rem" }}>
                       {res.input && <FaRobot></FaRobot>}
                     </span>
                     <p>
