@@ -255,7 +255,14 @@
       }
       &.active {
         h2 {
-          left: 39.8%;
+          left: 42.8%;
+          font-size: 20px;
+          letter-spacing: 1px;
+        }
+        p {
+          margin-left: 30px;
+          font-size: 15px;
+          letter-spacing: 1px;
         }
         .response {
           .input {
@@ -371,7 +378,7 @@
           border-radius: 20px;
           border: 1px dashed #413c3c5b;
         }
-        
+
         .drag-active {
           border: 1px dashed #ffffff;
         }
@@ -465,7 +472,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      
+
       .header {
         color: #ffffff;
         text-transform: uppercase;

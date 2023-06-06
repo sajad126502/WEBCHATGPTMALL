@@ -162,7 +162,7 @@ export default function CenterNav() {
               <h2 className="text-center text-capitalize">{params.segment1 !== undefined ?  `Welcome to ${params.segment1}`: 'Text To Text'}</h2>
             )}
             {!loading && responseInput.length < 1 && params.id && (
-              <p className="text-center text-white text-capitalize ms-5 mt-5">{params.id !== undefined &&  `Room No ${params.id}`}</p>
+              <p className="text-center text-white text-capitalize mt-5">{params.id !== undefined &&  `Room No ${params.id}`}</p>
             )}
             <span>|</span>
             {response?.map((res) => {
