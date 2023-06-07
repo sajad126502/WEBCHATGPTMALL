@@ -39,6 +39,9 @@ export const AppContext = (props) => {
   const [room_organization, setRoom_Organization] = useState("");
   const [room_id, setRoom_Id] = useState("");
   const [language, setLanguage] = useState("");
+  const [supervisor_room_id, set_supervisor_room_id] = useState("");
+  const [supervisor_room_key, set_supervisor_room_key] = useState("");
+  const [room_History, set_Room_History] = useState([]);
 
   const config = {
     headers: {
@@ -185,6 +188,44 @@ export const AppContext = (props) => {
     setLoading(false);
   };
 
+  const validateCredentials = async () => {
+    const apiUrl = BaseUrl + "room/validate/";
+    const params = {
+      room_id: parseFloat(supervisor_room_id),
+      room_key: supervisor_room_key,
+    };
+    try {
+      const res = await axios.get(apiUrl, { params });
+      if (res.status === 200) {
+        toast.success(res.data.msg);
+        localStorage.setItem("supervisor_room_id", supervisor_room_id);
+        localStorage.setItem("supervisor_room_key", supervisor_room_key);
+        setTimeout(() => {
+          window.location.href = "supervisor/room/history";
+        },2000)
+      }
+    } catch (err) {
+      toast.error(err.response.data.error);
+    }
+  };
+
+  const get_Room_History = async () => {
+    const apiUrl = BaseUrl + "room/history/";
+    const params = {
+      room_id: localStorage.getItem("supervisor_room_id"),
+      room_key: localStorage.getItem("supervisor_room_key"),
+    };
+    try {
+      const res = await axios.get(apiUrl, { params });
+      if (res.status === 200) {
+        set_Room_History(res.data.results);
+      }
+    } catch (err) {
+      toast.error(err.response.data.error);
+    }
+  };
+  
+
   return (
     <Context.Provider
       value={{
@@ -234,6 +275,13 @@ export const AppContext = (props) => {
         getCustomer,
         language,
         setLanguage,
+        supervisor_room_key,
+        set_supervisor_room_key,
+        supervisor_room_id,
+        set_supervisor_room_id,
+        validateCredentials,
+        get_Room_History,
+        room_History
       }}
     >
       {props.children}
