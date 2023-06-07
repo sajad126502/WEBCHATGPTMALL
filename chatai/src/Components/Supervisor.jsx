@@ -47,7 +47,7 @@ export default function Supervisor() {
             onClick={validate_Credentials}
             className="btn btn-sm btn-primary rounded-0 border-0"
           >
-            SHOW HISTORY
+            SUBMIT
           </button>
         </div>
       </div>

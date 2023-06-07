@@ -24,7 +24,7 @@ export default function RoomHistory() {
           <div className="room_history_container">
             {room_History &&
               room_History.map((item, index) => {
-                return <History key={index} item={item} />;
+                return <History key={index} index={index} item={item} />;
               })}
           </div>
         </div>
