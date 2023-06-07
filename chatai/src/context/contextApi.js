@@ -197,12 +197,9 @@ export const AppContext = (props) => {
     try {
       const res = await axios.get(apiUrl, { params });
       if (res.status === 200) {
-        toast.success(res.data.msg);
         localStorage.setItem("supervisor_room_id", supervisor_room_id);
         localStorage.setItem("supervisor_room_key", supervisor_room_key);
-        setTimeout(() => {
-          window.location.href = "supervisor/room/history";
-        },2000)
+        window.location.href = "supervisor/room/history";
       }
     } catch (err) {
       toast.error(err.response.data.error);
