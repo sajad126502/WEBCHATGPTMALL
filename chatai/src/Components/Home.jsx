@@ -8,6 +8,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CreateLicene from "../Components/CreateLicene";
 import Room from "./Room";
+import Supervisor from "./Supervisor";
+import RoomHistory from "./RoomHistory";
 export default function Home() {
 
 
@@ -58,6 +60,8 @@ export default function Home() {
             />
             <Route path="/:segment1/room/:id" element={<Room />} />
             <Route path="/:segment1/:id" element={<CenterNav></CenterNav>} />
+            <Route path="/supervisor" element={<Supervisor  />} />
+            <Route path="/supervisor/room/history" element={<RoomHistory  />} />
           </Routes>
         </div>
       </BrowserRouter>
